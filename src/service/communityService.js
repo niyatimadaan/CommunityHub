@@ -1,6 +1,10 @@
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
 export async function createCommunity(req, res) {
   const { name } = req.body;
-  const userId = req.user.id; // Assuming you have user authentication middleware
+  const userId = req.userId; // Assuming you have user authentication middleware
 
   const community = await prisma.community.create({
     data: {
@@ -31,7 +35,7 @@ export async function getAllMembers(req, res) {
 }
 
 export async function getMyOwnedCommunities(req, res) {
-    const userId = req.user.id; // Assuming you have user authentication middleware
+    const userId = req.userId; // Assuming you have user authentication middleware
 
     const communities = await prisma.community.findMany({
       where: { ownerId: userId },
@@ -41,7 +45,7 @@ export async function getMyOwnedCommunities(req, res) {
 }
 
 export async function getMyJoinedCommunities(req, res) {
-    const userId = req.user.id; // Assuming you have user authentication middleware
+    const userId = req.userId; // Assuming you have user authentication middleware
 
   const memberships = await prisma.member.findMany({
     where: { userId },

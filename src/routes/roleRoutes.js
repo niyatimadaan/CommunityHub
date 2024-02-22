@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { signup, signin } from '../service/authService';
+import { createRole, getAllRole } from '../service/roleService.js';
 
-const router = Router();
-router.post('/v1/role', createRole);
-router.get('/v1/role', getRole);
+const roleRoutes = Router();
+roleRoutes.post('/', createRole);
+roleRoutes.get('/', getAllRole);
 
-export default router;
+export default roleRoutes;

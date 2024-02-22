@@ -1,3 +1,7 @@
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
 export async function createRole(req, res) {
   const { name } = req.body;
 
@@ -11,7 +15,7 @@ export async function createRole(req, res) {
   } catch (error) {
     res
       .status(500)
-      .json({ error: "An error occurred while creating the role." });
+      .json({ error: "An error occurred while creating the role. "+ error });
   }
 }
 

@@ -1,8 +1,9 @@
 import { Router } from 'express';
-import { signup, signin } from '../service/authService';
+import { requireAuth } from '../utils/requireAuth.js';
+import { addMember, deleteMember } from '../service/memberService.js';
 
-const router = Router();
-router.post('/v1/member', addMember);
-router.delete('/v1/member/:id', deleteMember);
+const memberRoutes = Router();
+memberRoutes.post('/', requireAuth, addMember);
+memberRoutes.delete('/:id', requireAuth, deleteMember);
 
-export default router;
+export default memberRoutes;

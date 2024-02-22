@@ -1,10 +1,10 @@
 import { Router } from 'express';
-const router = Router();
-import { signup, signin } from '../service/authService';
+import { signup, signin, getMe } from '../service/authService.js';
+import { requireAuth } from '../utils/requireAuth.js';
 
-router.post('/v1/auth/signup', signup);
-router.post('/v1/auth/signin', signin);
-router.post('/v1/auth/signin', signin);
-// Optionally, add more routes as needed
+const authRoutes = Router();
+authRoutes.post('/signup', signup);
+authRoutes.post('/signin', signin);
+authRoutes.post('/me', requireAuth , getMe);
 
-export default router;
+export default authRoutes;

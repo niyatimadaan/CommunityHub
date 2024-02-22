@@ -1,11 +1,12 @@
 import { Router } from 'express';
-import { signup, signin } from '../service/authService';
+import { createCommunity, getAllCommunities, getAllMembers, getMyJoinedCommunities, getMyOwnedCommunities } from '../service/communityService.js';
+import { requireAuth } from '../utils/requireAuth.js';
 
-const router = Router();
-router.post('/v1/community', createCommunity);
-router.get('/v1/community', getAllCommunities);
-router.get('/v1/community/:id/members', getAllMembers);
-router.get('/v1/community/me/owner', getMyOwnedCommunities);
-router.get('/v1/community/me/member', getMyJoinedCommunities);
+const communityRoutes = Router();
+communityRoutes.post('/', requireAuth, createCommunity);
+communityRoutes.get('/', getAllCommunities);
+communityRoutes.get('/:id/members', getAllMembers);
+communityRoutes.get('/me/owner', requireAuth, getMyOwnedCommunities);
+communityRoutes.get('/me/member', requireAuth, getMyJoinedCommunities);
 
-export default router;
+export default communityRoutes;
