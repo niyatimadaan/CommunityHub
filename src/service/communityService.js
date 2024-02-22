@@ -67,12 +67,12 @@ export async function createCommunity(req, res) {
   });
 
   // return responseObject(community);
-  // const responseObject = {
-  //   status: true,
-  //   content: {
-  //     data: community,
-  //   },
-  // };
+  const responseObject = {
+    status: true,
+    content: {
+      data: community,
+    },
+  };
   return res.json(responseObject);
 }
 
