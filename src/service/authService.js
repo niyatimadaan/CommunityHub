@@ -12,7 +12,7 @@ export async function signup(req, res) {
 
   const userExists = await prisma.user.findUnique({where: { email}});
   if (userExists) {
-    return res.status(400).json({ error: 'Email already exists' });
+    return atus(400).json({ error: 'Email already exists' });
   }
 
   const hashedPassword = await hash(password,  10);
