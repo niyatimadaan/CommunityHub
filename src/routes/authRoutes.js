@@ -6,6 +6,6 @@ import { validationRules } from '../utils/signUpValidation.js';
 const authRoutes = Router();
 authRoutes.post('/signup', validationRules, signup);
 authRoutes.post('/signin', signin);
-authRoutes.post('/me', requireAuth , getMe);
+authRoutes.get('/me', requireAuth , getMe);
 
 export default authRoutes;
