@@ -1,14 +1,15 @@
 import { PrismaClient } from "@prisma/client";
+import { Snowflake } from "@theinternetfolks/snowflake";
 
 const prisma = new PrismaClient();
 
 export async function createCommunity(req, res) {
   const { name } = req.body;
-  const userId = req.userId; // Assuming you have user authentication middleware
+  const userId = req.userId; 
 
   const community = await prisma.community.create({
     data: {
-      id: generateSnowflakeId(),
+      id: Snowflake.generate(),
       name,
       ownerId: userId,
     },

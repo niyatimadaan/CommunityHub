@@ -1,14 +1,19 @@
 // import { prisma } from '../db';
 import { hash, compare } from 'bcrypt';
 import { PrismaClient } from '@prisma/client';
-import pkg from '@theinternetfolks/snowflake';
+import { Snowflake } from '@theinternetfolks/snowflake';
+import { createJwtToken } from '../utils/createJwtToken.js';
 
 const prisma = new PrismaClient();
-const { generateSnowflakeId }= pkg;
+
 export async function signup(req, res) {
+
   const { name, email, password } = req.body;
+
   const hashedPassword = await hash(password,  10);
-  const userId = generateSnowflakeId();
+  const userId = Snowflake.generate();
+
+  const token = createJwtToken(userId);
 
   const user = await prisma.user.create({
     data: {
@@ -19,7 +24,21 @@ export async function signup(req, res) {
     },
   });
 
-  res.json(user);
+  const responseObject = {
+    status: true,
+    content: {
+      data: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        createdAt: user.createdAt,
+      },
+      meta: {
+        access_token: token,
+      },
+    },
+  };
+  res.json(responseObject);
 }
 
 export async function signin(req, res) {
@@ -39,17 +58,15 @@ export async function signin(req, res) {
 }
 
 export async function getMe(req,res) {
-    const userId = req.user.id; // Assuming you have user authentication middleware
+    const userId = req.userId; // Assuming you have user authentication middleware
     
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      // Exclude the password from the response
       select: {
         id: true,
         name: true,
         email: true,
         created_at: true,
-        // Add any other fields you want to include
       },
     });
     return res.json(user);

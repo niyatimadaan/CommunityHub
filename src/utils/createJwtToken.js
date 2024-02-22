@@ -1,6 +1,6 @@
-import { sign } from "jsonwebtoken";
+import sign from "jsonwebtoken";
 
-export async function createToken(userId) {
+export async function createJwtToken(userId) {
   const payload = { userId: userId };
   const options = { expiresIn: "10h" }; // Set the expiration time as needed
 

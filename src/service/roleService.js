@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { Snowflake } from "@theinternetfolks/snowflake";
 
 const prisma = new PrismaClient();
 
@@ -8,6 +9,7 @@ export async function createRole(req, res) {
   try {
     const newRole = await prisma.role.create({
       data: {
+        id: Snowflake.generate(),
         name,
       },
     });
